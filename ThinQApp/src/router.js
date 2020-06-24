@@ -96,9 +96,9 @@ router.get('/pendingRequests' , (req , res)=>{
 
 
 router.get('/getAddress' , async function(req , res){
-    let nodeid = await global.node.id()
+    let nodeid = await global.args.node.id()
     console.log("Node id is:",nodeid['id'])
-    global.User.findAll({}).then((contacts)=>{
+    global.args.db.User.findAll({}).then((contacts)=>{
         let promises = []
         let flag
         if(contacts.length==0)
@@ -111,7 +111,7 @@ router.get('/getAddress' , async function(req , res){
             let responses = []
             // contacts[i] = contacts[i].dataValues
             documentPath = '/ratings/' + contacts[i].ipfs + '.txt'
-            global.node.files.read(documentPath
+            global.args.node.files.read(documentPath
                 , (err, res) => {
                     if(err) {
                         console.log("Error in reading file for addressbook:",err.toString())
@@ -126,7 +126,7 @@ router.get('/getAddress' , async function(req , res){
                         {   
                             contacts[i].rating = prevrating.split("|")[1].toString()
                             console.log("Rating passed form getAddress is:",contacts[i].rating)
-                            global.User.update({rating:contacts[i].rating},{where: {ipfs:contacts[i].ipfs}}).then((result)=>{
+                            global.args.db.User.update({rating:contacts[i].rating},{where: {ipfs:contacts[i].ipfs}}).then((result)=>{
                                 // console.log("results of filehash is :",result)
                             })
                         }
@@ -167,20 +167,22 @@ router.post('/addRequest' , function(req , res){
 
 router.post('/updateBio', (req, res) => {
     let updatedBio = req.body.bio
-    userInfo.updateBio(updatedBio).then(() => {
+    thinq.thinQ.updateInfo({
+        'bio': updatedBio
+    }, global.args).then(() => {
         res.json(updatedBio)
     })
 })
 
 router.get('/updateType' , (req , res)=>{
-    global.node.id().then((info)=>{
-        global.User.findOne({where:{ipfs:info.id}}).then((user)=>{
-            global.node.get(user.dataValues.filehash).then(([file])=>{
+    global.args.node.id().then((info)=>{
+        global.args.db.User.findOne({where:{ipfs:info.id}}).then((user)=>{
+            global.args.node.get(user.dataValues.filehash).then(([file])=>{
                 let user_info = JSON.parse(file.content.toString())
                 user_info.type = user_info.type==1? 2 : 1
-                global.node.add(JSON.stringify(user_info)).then(([stat])=>{
-                    global.User.update({filehash:stat.hash.toString() , type:user_info.type} , {where:{ipfs:info.id}}).then((result)=>{
-                        message.broadcastMessageToAddressBook({
+                global.args.node.add(JSON.stringify(user_info)).then(([stat])=>{
+                    global.args.db.User.update({filehash:stat.hash.toString() , type:user_info.type} , {where:{ipfs:info.id}}).then((result)=>{
+                        thinq.messaging.broadcastMessageToAddressBook({
                             sender: info.id,
                             action: messageAction.UPDATE,
                             message: stat.hash.toString(),
