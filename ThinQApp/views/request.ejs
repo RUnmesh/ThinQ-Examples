@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ThinQ</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,700&display=swap" rel="stylesheet">
+        <style>   
+            .navbar-header {
+                float: left;
+                padding: 15px;
+                text-align: center;
+                width: 100%;
+            }
+            .navbar-brand {
+                font-size: 3em;
+                font-weight: bold;
+                font-family: 'Josefin Sans', sans-serif;
+                float:none;
+            }     
+            .list-group-item:hover{
+                background-color: rgb(240, 236, 236);
+            }
+            
+            .rating {
+                float:left;
+                width:300px;
+            }
+            .rating span { float:right; position:relative; }
+            .rating span input {
+            position:absolute;
+            top:0px;
+            left:0px;
+            opacity:0;
+            }
+            .rating span label {
+            display:inline-block;
+            width:30px;
+            height:30px;
+            text-align:center;
+            color:#FFF;
+            background:#ccc;
+            font-size:30px;
+            margin-right:2px;
+            line-height:30px;
+            border-radius:50%;
+            -webkit-border-radius:50%;
+            }
+            .rating span:hover ~ span label,
+            .rating span:hover label,
+            .rating span.checked label,
+            .rating span.checked ~ span label {
+            background:#F90;
+            color:#FFF;
+            }
+            .rating1 {
+                float:left;
+                width:300px;
+            }
+            .rating1 span { float:right; position:relative; }
+            .rating1 span input {
+            position:absolute;
+            top:0px;
+            left:0px;
+            opacity:0;
+            }
+            .rating1 span label {
+            display:inline-block;
+            width:30px;
+            height:30px;
+            text-align:center;
+            color:#FFF;
+            background:#ccc;
+            font-size:30px;
+            margin-right:2px;
+            line-height:30px;
+            border-radius:50%;
+            -webkit-border-radius:50%;
+            }
+            .rating1 span:hover ~ span label,
+            .rating1 span:hover label,
+            .rating1 span.checked label,
+            .rating1 span.checked ~ span label {
+            background:#F90;
+            color:#FFF;
+            }
+        </style>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-default" style="background-color: rgb(8, 102, 209);">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <a class="navbar-brand" style="color:white">ThinQ</a>
+              </div>
+            </div>
+        </nav>
+        <div class="container" style="padding-top:2%; ">
+            <h2 style="font-family: 'Josefin Sans', sans-serif;">Your <%=requestType%> Requests</h2>
+            <hr>
+            <div class="list-group">
+                <% requests.forEach(function(request){ %>
+                    <div class="list-group-item">
+                        <h3><%=request.dataValues.sender%></h3>
+                        <h4>Status: <%=requestType%></h4>
+                        <%if (requestType == "Sent") {%>
+                            <button type="button" class="btn btn-primary" onclick=deleteRequest("<%=request.dataValues.sender%>")>
+                                Delete
+                            </button>
+                            &nbsp;
+                        <%}%>
+                        <%if (requestType == "Sent") {%>
+                            <button type="button" class="btn btn-primary" onclick=createcRequest("<%=request.dataValues.sender%>") >
+                                Close Request
+                            </button>
+                            &nbsp;
+                        <%}%>
+                        <%if (requestType == "Pending") {%>
+                            <button type="button" class="btn btn-primary" onclick=spcreatecRequest("<%=request.dataValues.sender%>") >
+                                Close Request
+                            </button>
+                            &nbsp;
+                        <%}%>
+                        <%if (requestType == "CreatedSP") {%>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#spacknowledge">
+                                Acknowledge
+                            </button>
+                            &nbsp;
+                        <%}%>
+                        <div class="modal fade" id="spacknowledge" tabindex="-1" role="dialog" aria-labelledby="spacknowledge" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="spacknowledgeTitle">Please provide rating to the consumer</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="rating">
+                                        <span><input type="radio" name="rating" id="str5" value="5"><label for="str5"></label></span>
+                                        <span><input type="radio" name="rating" id="str4" value="4"><label for="str4"></label></span>
+                                        <span><input type="radio" name="rating" id="str3" value="3"><label for="str3"></label></span>
+                                        <span><input type="radio" name="rating" id="str2" value="2"><label for="str2"></label></span>
+                                        <span><input type="radio" name="rating" id="str1" value="1"><label for="str1"></label></span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick=spackRequest("<%=request.dataValues.sender%>")>Give Rating</button>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <%if (requestType == "SP_Acknowledged") {%>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cacknowledge">
+                                Acknowledge
+                            </button>
+                            &nbsp;
+                        <%}%>
+                        <div class="modal fade" id="cacknowledge" tabindex="-1" role="dialog" aria-labelledby="cacknowledge" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="cacknowledgeTitle">Please provide rating to the SP first</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="rating1">
+                                        <span><input type="radio" name="rating1" id="str5" value="5"><label for="str5"></label></span>
+                                        <span><input type="radio" name="rating1" id="str4" value="4"><label for="str4"></label></span>
+                                        <span><input type="radio" name="rating1" id="str3" value="3"><label for="str3"></label></span>
+                                        <span><input type="radio" name="rating1" id="str2" value="2"><label for="str2"></label></span>
+                                        <span><input type="radio" name="rating1" id="str1" value="1"><label for="str1"></label></span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick=cackRequest("<%=request.dataValues.sender%>")>Give Rating</button>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+            <br>
+            <button type="button" class="btn btn-primary" >
+                <a style="color: white" href="/">Contacts</a>
+            </button>
+        </div>
+        <script>
+            var userRating,userRating1
+            $(document).ready(function(){
+            // Check Radio-box
+            $(".rating input:radio").attr("checked", false);
+
+            $('.rating input').click(function () {
+        $(".rating span").removeClass('checked');
+        $(this).parent().addClass('checked');
+         });
+
+            $('input:radio').change(
+            function(){
+            userRating = this.value;
+         });
+        });
+        $(document).ready(function(){
+         $(".rating1 input:radio").attr("checked", false);
+
+    $('.rating1 input').click(function () {
+    $(".rating1 span").removeClass('checked');
+    $(this).parent().addClass('checked');
+        });
+
+    $('input:radio').change(
+    function(){         
+    userRating1 = this.value;
+});
+});
+        
+            function deleteRequest(sender){
+                $.ajax({url: "http://localhost:3000/deleteRequest" , type:'POST' , async:true , data: {sender:sender} , 
+                success: function(res){
+                    location.reload()
+              }})
+            }
+            function createcRequest(sender){
+                $.ajax({url: "http://localhost:3000/createcRequest" , type:'POST' , async:true , data: {sender:sender} , 
+                success: function(res){
+                    location.reload()
+              }})
+            }
+            function spcreatecRequest(sender){
+                $.ajax({url: "http://localhost:3000/spcreatecRequest" , type:'POST' , async:true , data: {sender:sender} , 
+                success: function(res){
+                    location.reload()
+              }})
+            }
+            function spackRequest(sender){
+                console.log("The rating is:",userRating)
+                $.ajax({url: "http://localhost:3000/sp_ack_cRequest" , type:'POST' , async:true , data: {sender:sender,userRating:userRating} , 
+                success: function(res){
+                    location.reload()
+              }})
+            }
+            function cackRequest(sender){
+                console.log("The rating is:",userRating)
+                $.ajax({url: "http://localhost:3000/c_ack_cRequest" , type:'POST' , async:true , data: {sender:sender,userRating:userRating1} , 
+                success: function(res){
+                    location.reload()
+              }})
+            }
+        </script>
+    </body>
+    
+</html>
+

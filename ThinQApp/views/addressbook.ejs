@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ThinQ</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,700&display=swap" rel="stylesheet">
+        <style>
+            .navbar-header {
+                float: left;
+                padding: 15px;
+                text-align: center;
+                width: 100%;
+            }
+            .navbar-brand {
+                font-size: 3em;
+                font-weight: bold;
+                font-family: 'Josefin Sans', sans-serif;
+                float:none;
+            }
+            .list-group-item:hover{
+                background-color: rgb(240, 236, 236);
+            }
+
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-default" style="background-color: rgb(8, 102, 209);">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <a class="navbar-brand" style="color:white">ThinQ</a>
+              </div>
+            </div>
+        </nav>
+        <div class="container" style="padding-top:2%; ">
+            <div style="font-family: 'Josefin Sans', sans-serif;">
+                <h2 id="name"><%=name%></h2>
+                <h4 id="usertype"><%=type==1?"Service Provider" : "Consumer"%> &nbsp;
+                  <button type="button" class="btn btn-primary" onclick=switchUserType()>
+                    Switch
+                  </button>
+                </h4>
+                <h6 id="ID">Your ID: <%=filehash%></h6>
+                <button type="button" class="btn btn-primary" >
+                    <a style="color: white" href="/sentRequests">View Sent Requests</a>
+                </button>
+                &nbsp;
+                <button style='display: <%=type==1?"inline-block" : "none"%>' type="button" class="btn btn-primary" >
+                    <a style='color: white;' href="/pendingRequests">View Pending Requests</a>
+                </button>
+                &nbsp;
+                <button  type="button" class="btn btn-primary" >
+                    <a style='color: white;' href="/cRequests">Created close requests</a>
+                </button>
+                &nbsp;
+                <button style='display: <%=type==1?"inline-block": "none"%>' type="button" class="btn btn-primary" >
+                  <a style='color: white;' href="/c_sp_Requests">Acknowledge Close Requests</a>
+              </button>
+              &nbsp;
+                <button type="button" class="btn btn-primary" >
+                  <a style='color: white;' href="/spackRequests">Acknowledge Created Close Requests</a>
+              </button>
+              &nbsp;
+                <button type="button" class="btn btn-primary" >
+                  <a style='color: white;' href="/cackRequests">View Resolved Requests</a>
+              </button>
+            </div>
+            <hr>
+            <div>
+            </div>
+            <p><span style="font-weight: bold; font-family: 'Josefin Sans', sans-serif; font-size: 1.5em;">Bio: </span><span id="bio"><%=bio%></span></p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateBio">
+                Update Bio
+            </button>
+            <hr>
+            <h2 style="font-weight: bold;">Contact List
+            &nbsp;
+            <button style="position: absolute; left:74%;"type="button" class="btn btn-primary" data-toggle="modal" data-target="#addContact">
+                Add Contact
+            </button>
+            </h2>
+            <div class="modal fade" id="addContact" tabindex="-1" role="dialog" aria-labelledby="addContact" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="addContactTitle">New Contact</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="contact">
+                            <div class="form-group">
+                                <label style="font-weight: bold;" for="Name">Name:</label>
+                                <input id="Name" class="form-control" name="Name" type="text" required>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: bold;" for="ID">ID:</label>
+                                <input id="ID" class="form-control" name="ID" type="text" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addContact()">Add contact</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="modal fade" id="updateBio" tabindex="-1" role="dialog" aria-labelledby="updateBio" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="addContactTitle">Update Bio</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="bio_form">
+                            <div class="form-group">
+                                <label style="font-weight: bold;" for="Bio">Updated Bio:</label>
+                                <input id="updatedbio" class="form-control" name="Name" type="text" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateBio()">Update</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div id="contactlist" class="list-group"></div>
+        </div>
+        <div class="modal fade" id="reqSuc" tabindex="-1" role="dialog" aria-labelledby="reqSucT" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="reqSucT">Request Status</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Request sent successfully
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <script>
+                
+                $.ajax({url: "http://localhost:3000/getAddress", type:'GET', async: true, 
+                    success: function(res){
+                        for(contact of res)
+                            $('#contactlist').append(createListItem(contact))
+                }});
+
+            function updateBio() {
+                console.log("Inside Update Bio")
+                $.ajax({url: "http://localhost:3000/updateBio", type: 'POST', async: true, data: {
+                    bio: document.getElementById('bio_form').elements[0].value
+                }, success: function(res) {
+                    $("#bio").html(res)
+                }})
+            }
+
+            function addContact(){
+                console.log("Here")
+                $.ajax({url: "http://localhost:3000/addAddress", type:'POST', async: true, data: {
+                    id: document.getElementById('contact').elements[1].value,
+                    name: document.getElementById('contact').elements[0].value
+                }, success: function(res){
+                    $("#contactlist").append(createListItem(res))
+                }});
+            }
+
+            function createListItem(res){
+                let item = `<div class="list-group-item">
+                    <h3>${res.name}</h3>
+                    <p>${res.type==1?"Service Provider" : "Consumer"}</p>
+                    <p>${res.bio}</p>
+                    <p>${res.rating}</p>`
+                if(res.type == 1)
+                    item = item + `<button type="button" class="btn btn-primary" onclick=addRequest("${res.ipfs}")>Ask for service</button>`
+                item = item + `</div>`
+
+                return item
+            }
+
+            function addRequest(ipfs){
+                $.ajax({url: "http://localhost:3000/addRequest" , type:'POST' , async: true, data:{
+                    ipfs:ipfs
+                }, success: function(res){
+                    $("#reqSuc").modal({keyboard: true})
+                }})
+            }
+
+            function switchUserType(){
+              $.ajax({url: "http://localhost:3000/updateType" , type:'GET' , async:true , 
+              success: function(res){
+                location.reload()
+              }})
+            }
+        </script>
+    </body>
+</html>
