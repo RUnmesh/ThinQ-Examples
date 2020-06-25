@@ -4,7 +4,7 @@ const userInfo = require('./userInfo')
 const messageAction = require('./messageAction')
 const message = require('./message');
 const { sequelize } = require('../models/database');
-const thinq = require('thinq_lib')
+const thinq = require('@gnowledge/thinq_lib')
 
 router.get('/' , function(req, res) {
     global.args.node.id().then((info)=>{
@@ -60,7 +60,11 @@ router.get('/contacts' , function(req , res){
 
 router.get('/sentRequests' , (req , res)=>{
     thinq.serviceRequest.sentRequests(global.args).then((result) => {
+<<<<<<< HEAD
         result['requestType'] = "Sent"
+=======
+        console.log(JSON.stringify(result))
+>>>>>>> 8f6c28fd0db4a043b08c268ce96aac4ad5219804
         res.render('request.ejs' , result)
     })
 })
