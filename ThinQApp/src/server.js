@@ -10,7 +10,7 @@ const path = require('path')
 const Sequelize = require('sequelize')
 const messageAction = require('./messageAction')
 const messages = require('./message')
-const thinq = require('thinq_lib')
+const thinq = require('@gnowledge/thinq_lib')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
