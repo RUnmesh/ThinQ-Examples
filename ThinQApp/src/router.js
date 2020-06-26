@@ -93,7 +93,7 @@ router.get('/cackRequests' , (req , res)=>{
 })
 
 router.get('/pendingRequests' , (req , res)=>{
-    thinq.serviceRequest.pendingRequests(this.args, 50, 0).then((result) => {
+    thinq.serviceRequest.pendingRequests(global.args, 50, 0).then((result) => {
         result['requestType'] = "Pending"
         res.render('request.ejs' , result)
     })
@@ -166,6 +166,7 @@ router.post('/addAddress' , function(req , res) {
 })
 
 router.post('/addRequest' , function(req , res){
+    console.log("Here " + req.body.ipfs)
     thinq.serviceRequest.addRequests(req.body.ipfs, global.args).then(() => {
         res.json({success:true})
     })
