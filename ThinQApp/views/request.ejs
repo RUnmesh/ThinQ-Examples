@@ -106,19 +106,19 @@
                         <h3><%=request.dataValues.sender%></h3>
                         <h4>Status: <%=requestType%></h4>
                         <%if (requestType == "Sent") {%>
-                            <button type="button" class="btn btn-primary" onclick=deleteRequest("<%=request.dataValues.sender%>")>
+                            <button type="button" class="btn btn-primary" onclick='deleteRequest("<%=request.dataValues.sender%>")'>
                                 Delete
                             </button>
                             &nbsp;
                         <%}%>
                         <%if (requestType == "Sent") {%>
-                            <button type="button" class="btn btn-primary" onclick=createcRequest("<%=request.dataValues.sender%>") >
+                            <button type="button" class="btn btn-primary" onclick='createcRequest("<%=request.dataValues.sender%>")'>
                                 Close Request
                             </button>
                             &nbsp;
                         <%}%>
                         <%if (requestType == "Pending") {%>
-                            <button type="button" class="btn btn-primary" onclick=spcreatecRequest("<%=request.dataValues.sender%>") >
+                            <button type="button" class="btn btn-primary" onclick='spcreatecRequest("<%=request.dataValues.sender%>")'>
                                 Close Request
                             </button>
                             &nbsp;
@@ -148,7 +148,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick=spackRequest("<%=request.dataValues.sender%>")>Give Rating</button>
+                                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick='spackRequest("<%=request.dataValues.sender%>")'>Give Rating</button>
                                 </div>
                               </div>
                             </div>
@@ -178,7 +178,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick=cackRequest("<%=request.dataValues.sender%>")>Give Rating</button>
+                                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick='cackRequest("<%=request.dataValues.sender%>")'>Give Rating</button>
                                 </div>
                               </div>
                             </div>

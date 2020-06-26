@@ -81,7 +81,7 @@ router.get('/c_sp_Requests' , (req , res)=>{
 
 router.get('/spackRequests' , (req , res)=>{
     thinq.serviceRequest.spackRequests(global.args).then((result) => {
-        result['requestType']="SP Acknowledged"
+        result['requestType'] = "SP Acknowledged"
         res.render('request.ejs' , result)
     })
 })
@@ -167,6 +167,7 @@ router.post('/addAddress' , function(req , res) {
 })
 
 router.post('/addRequest' , function(req , res){
+    console.log("Here " + req.body.ipfs)
     thinq.serviceRequest.addRequests(req.body.ipfs, global.args).then(() => {
         res.json({success:true})
     })
