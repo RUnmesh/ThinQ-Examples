@@ -60,37 +60,41 @@ router.get('/contacts' , function(req , res){
 
 router.get('/sentRequests' , (req , res)=>{
     thinq.serviceRequest.sentRequests(global.args).then((result) => {
-        console.log(JSON.stringify(result))
+        result['requestType'] = "Sent"
         res.render('request.ejs' , result)
     })
 })
 
 router.get('/cRequests' , (req , res)=>{
     thinq.serviceRequest.createdcRequests(global.args).then((result) => {
+        result['requestType'] = "Created"
         res.render('request.ejs' , result)
     })
 })
 
 router.get('/c_sp_Requests' , (req , res)=>{
     thinq.serviceRequest.createdspRequests(global.args).then((result) => {
+        result['requestType'] = "SP Created"
         res.render('request.ejs' , result)
     })
 })
 
 router.get('/spackRequests' , (req , res)=>{
     thinq.serviceRequest.spackRequests(global.args).then((result) => {
-        res.render('request.ejs' , {requestType: "SP_Acknowledged" , requests:requests})
+        res.render('request.ejs' , {requestType: "SP Acknowledged" , requests:requests})
     })
 })
 
 router.get('/cackRequests' , (req , res)=>{
     thinq.serviceRequest.cackRequests(global.args).then((result) => {
+        result['requestType'] = "Consumer Acknowleged"
         res.render('request.ejs' , result)
     })
 })
 
 router.get('/pendingRequests' , (req , res)=>{
-    thinq.serviceRequest.pendingRequests(this.args, 50, 0).then((result) => {
+    thinq.serviceRequest.pendingRequests(global.args, 50, 0).then((result) => {
+        result['requestType'] = "Pending"
         res.render('request.ejs' , result)
     })
 })
@@ -156,6 +160,7 @@ router.get('/getAddress' , async function(req , res){
 
 router.post('/addAddress' , function(req , res) {
     thinq.thinQ.addUser(req.body.id, req.body.name, global.args).then((user_info) => {
+        console.log(JSON.stringify(user_info))
         res.json(user_info)
     })
 })
