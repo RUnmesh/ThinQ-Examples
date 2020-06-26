@@ -217,13 +217,13 @@ router.post('/createcRequest' , function(req , res){
 })
 
 router.post('/sp_ack_cRequest' , function(req , respond){
-    thinq.serviceRequest.sp_ack_request(req.body.sender, req.body.userRating, '/ratings/' + sender.dataValues.ipfs.toString() + '.txt', global.args).then(() => {
+    thinq.serviceRequest.sp_ack_request(req.body.sender, req.body.userRating, '/ratings/' + req.body.sender + '.txt', global.args).then(() => {
         respond.json({success : true})
     })
 })
 
 router.post('/c_ack_cRequest' , function(req , respond){
-    thinq.serviceRequest.c_ack_request(req.body.sender, req.body.userRating, '/ratings/' + sender.dataValues.ipfs.toString() + '.txt', global.args).then(() => {
+    thinq.serviceRequest.c_ack_request(req.body.sender, req.body.userRating, '/ratings/' + req.body.sender + '.txt', global.args).then(() => {
         respond.json({success : true})
     })
 })
