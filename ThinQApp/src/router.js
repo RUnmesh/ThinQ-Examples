@@ -81,7 +81,8 @@ router.get('/c_sp_Requests' , (req , res)=>{
 
 router.get('/spackRequests' , (req , res)=>{
     thinq.serviceRequest.spackRequests(global.args).then((result) => {
-        res.render('request.ejs' , {requestType: "SP Acknowledged" , requests:requests})
+        result['requestType']="SP Acknowledged"
+        res.render('request.ejs' , result)
     })
 })
 
