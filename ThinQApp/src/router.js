@@ -81,7 +81,8 @@ router.get('/c_sp_Requests' , (req , res)=>{
 
 router.get('/spackRequests' , (req , res)=>{
     thinq.serviceRequest.spackRequests(global.args).then((result) => {
-        res.render('request.ejs' , {requestType: "SP Acknowledged" , requests:requests})
+        result['requestType'] = "SP Acknowledged"
+        res.render('request.ejs' , result)
     })
 })
 
@@ -217,13 +218,13 @@ router.post('/createcRequest' , function(req , res){
 })
 
 router.post('/sp_ack_cRequest' , function(req , respond){
-    thinq.serviceRequest.sp_ack_request(req.body.sender, req.body.userRating, '/ratings/' + sender.dataValues.ipfs.toString() + '.txt', global.args).then(() => {
+    thinq.serviceRequest.sp_ack_request(req.body.sender, req.body.userRating, '/ratings/' + req.body.sender + '.txt', global.args).then(() => {
         respond.json({success : true})
     })
 })
 
 router.post('/c_ack_cRequest' , function(req , respond){
-    thinq.serviceRequest.c_ack_request(req.body.sender, req.body.userRating, '/ratings/' + sender.dataValues.ipfs.toString() + '.txt', global.args).then(() => {
+    thinq.serviceRequest.c_ack_request(req.body.sender, req.body.userRating, '/ratings/' + req.body.sender + '.txt', global.args).then(() => {
         respond.json({success : true})
     })
 })
