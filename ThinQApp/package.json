@@ -28,7 +28,7 @@
     "ipfs-pubsub-room": "^1.4.1",
     "md5": "^2.2.1",
     "openpgp": "^4.10.4",
-    "sequelize": "^5.21.12",
+    "sequelize": "^6.29.0",
     "sqlite3": "^4.2.0"
   }
 }
